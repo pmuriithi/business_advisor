@@ -1,0 +1,78 @@
+{% extends "basicTemplate.html" %}
+{% block content %}	
+	<div class="container">
+        <!-- <div class="jumbotron"> -->
+		<div class="row">
+            <div class="box">
+                <div class="col-lg-12 text-left">
+                    <h1 class="brand-name">Upload File</h1>
+                   <!-- <hr width="200"   align="left"> -->
+					<p class="lead">Please choose and upload the files you need to analyse. Once upload is successful you may choose to continue by pressing the button.</p>
+					<div class="row">
+					<div>
+						{% with messages = get_flashed_messages(with_categories=true) %}
+							{% if messages %}
+								{% for category, message in messages %}
+									{% if category == 'message' %}
+								<div class="alert alert-success" role="alert">
+<!-- 									<div class = "alert alert-success alert-dismissable">
+   										<span class="glyphicon glyphicon-ok"></span> -->
+									{% else %}
+									<div class="alert alert-{{ category }}" role="alert">
+									{% endif %}
+										{{ message }}
+									</div>
+								</div>
+								{% endfor %}
+							{% endif %}
+						{% endwith %}
+						</div>						
+						<div class="col-md-4">
+							<br></br>
+							<h3>Transaction File</h3>
+							<p>Please upload .xls or .xlsx  file format.</p>
+							<p>
+							<form action="upload" method=post enctype=multipart/form-data> 
+								<!-- enctype=multipart/form-data is usually set to ensure that the browser will transmit all your files-->
+									<input type='file' name='file'> 
+									<!--	<input type='submit' value="Upload and Process Selected File"> -->
+									<input type='submit' value="Upload">
+								</form>
+							</p>
+						</div>
+						<br></br>
+						<div class="col-md-4">
+							<h3>Client File</h3>
+							<p>Please upload .xls or .xlsx  file format.</p>
+							<p>
+								<form action="upload" method=post enctype=multipart/form-data> 
+								<!-- enctype=multipart/form-data is usually set to ensure that the browser will transmit all your files-->
+									<input type='file' name='file'> 
+									<!--    <input type='submit' value="Upload and Process Selected File"> -->
+									<input type='submit' value="Upload"> 
+								</form>
+							</p>
+						</div>						
+						<div class="col-md-4">		
+							<h3>Uploded Files</h3>
+							<p>
+<!-- Displays the returned files to the browser -->
+							<table>
+  								<tr>
+									<ul>
+							  			# for file in files
+							  				<li>{{file|e}}</li>
+							  			# endfor
+									</ul>
+								</tr>
+							</table>		
+							</p>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+{% endblock %}	
+		

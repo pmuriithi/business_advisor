@@ -1,0 +1,73 @@
+{% extends "basicTemplate.html" %}
+{% block content %}	
+  <div class="container">
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Sign Up</h4>
+                   
+				   </div>
+                   <div class="panel-body">
+						<form action="signUp " method="post" name="signUp">
+							<div class="control-group form-group">
+								<div class="controls">
+									<label>Company Name:</label>
+									<input type="text" class="form-control" placeholder="Company Name" name="inputName" id="register_fullname" required autofocus>
+								</div>
+								<div class="form-group">
+									<label>Company Adress:</label>
+                                    <input class="form-control" placeholder="Adress" name="inputAdress" type="text" id="register_username" required>
+                                </div>	
+								<div class="form-group">
+									<label>Company Organisational Number:</label>
+                                    <input class="form-control" placeholder="Organisational Number" name="username" type="text" id="register_username" required>
+                                </div>	
+							</div>				
+								<div class="form-group">
+									<label>Company Contact number:</label>
+                                    <input class="form-control" placeholder="Contact Number" name="inputContactNumber" type="text" id="register_username" required>
+                                </div>
+									<div class="form-group">
+									<label>Industry sector:</label>
+                                    <input class="form-control" placeholder="Username" name="inputIndustrySector" type="text" id="register_username" required>
+                                </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+									<label>Enter email:</label> 
+                                    <input class="form-control" placeholder="Email" name="inputEmail" type="email" id="register_email" required>
+								</div>		
+                                <div class="form-group">
+									<label>Create username:</label>
+                                    <input class="form-control" placeholder="Username" name="inputUserName" type="text" id="register_username" required>
+                                </div>								
+                                <div class="form-group">
+									<Label>Create password:</label>
+                                    <input class="form-control" placeholder="Password" name="inputPassword" type="password" id="register_password" required>
+                                </div>
+                                 <div class="form-group">
+									<label>Re-enter password:</label>
+                                    <input class="form-control" placeholder="Re-enter password" name="inputPassword2" type="password" id="register_password2" required>
+                                </div>	
+								<button type="submit" class="btn btn-lg btn-success btn-block" value="Sign Up">Sign Up</button>
+								<!-- SS: if we instead put signupcomplete href first we see the signupcomplete page. Dont know hwo to get both-->
+								
+								<!-- : added to diplay the result of the registration-->
+								<br/>
+								<div class="form-group">
+								<label id="result"></label>
+								</div>
+								<br/>
+								
+								<!-- : added to distinguish between the user and the company page -->
+								<input value="user" type="hidden" id="usertype">
+								
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+		</div>
+{% endblock %}	
+       
