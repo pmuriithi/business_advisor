@@ -30,6 +30,13 @@ def contact():
 def profile():
     return render_template('myprofile.html')    
 
+@app.route('/signup')
+def signup():
+    return render_template('signUp.html')   
+
+@app.route('/signin')
+def signin():
+    return render_template('signIn.html')   
 # index view function suppressed for brevity
 
 @app.route('/login', methods=['GET', 'POST'])

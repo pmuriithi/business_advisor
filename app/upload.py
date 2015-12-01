@@ -77,7 +77,7 @@ def upload_file():
 		files = notify.get_files(UPLOAD_FOLDER)
 		return render_template('upload.html', files=files)
 		return redirect(url_for('upload_file'))
-							   
-# if __name__ == '__main__':
-# 	app.debug = True
-# 	app.run()
+						
+if __name__ == '__main__':
+	app.debug = True
+	app.run()
