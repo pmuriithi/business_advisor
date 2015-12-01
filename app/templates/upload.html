@@ -60,9 +60,9 @@
 							<table>
   								<tr>
 									<ul>
-							  			# for file in files
-							  				<li>{{file|e}}</li>
-							  			# endfor
+							  			{% for file in files %}
+							  				<li>{{file}}</li>
+							  			{% endfor %}
 									</ul>
 								</tr>
 							</table>		
