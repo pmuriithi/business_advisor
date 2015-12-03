@@ -1,10 +1,12 @@
 
-from flask import render_template, flash, redirect, json, request
+from flask import render_template, flash, redirect, url_for, json, request
 from app import app
-from app import db
-from app import models
+from .connection import db, customers
 from .forms import LoginForm
+from .models import Customer
 from werkzeug import secure_filename
+
+import datetime
 
 @app.route('/')
 def index():
@@ -32,62 +34,71 @@ def profile():
 
 @app.route('/signup')
 def signup():
-    return render_template('signUp.html')   
+    return render_template('signUp.html') 
+
+@app.route('/signupcompleted')
+def signupcompleted():
+    return render_template('signUpCompleted.html')   
 
 @app.route('/signin')
 def signin():
     return render_template('signIn.html')   
 # index view function suppressed for brevity
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for username="%s", password=%s' %
-              (form.openid.data, str(form.remember_me.data)))
-        return redirect('/index')
-    return render_template('signin.html', 
-                           title='Sign In',
-                           form=form)
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         flash('Login requested for username="%s", password=%s' %
+#               (form.openid.data, str(form.remember_me.data)))
+#         return redirect('/index')
+#     return render_template('signin.html', 
+#                            title='Sign In',
+#                            form=form)
 
 @app.route('/signUp',methods=['POST'])
 def signUp():
-    # create user code will be here !!
-     # read the posted values from the UI
-    _username = request.form['inputUserName']
-    _email = request.form['inputEmail']
-    _password = request.form['inputPassword']
-    _password2= request.form['inputPassword2']
+   
+    name = request.form['inputName']
+    adress = request.form['inputAdress']
+    organisationalNumber = request.form['inputOrganisationalNumber']
+    contactNumber = request.form['inputContactNumber']
+    sector = request.form['inputIndustrySector']
+    email = request.form['inputEmail']
+    username = request.form['inputUserName']
+    password = request.form['inputPassword']
+    password2= request.form['inputPassword2']
 
+    full_form = email and username and password and password2
+
+    equal_passwords = (password == password2)
     # validate the received values
-    if _username and _password and _password2:
-    
-        newCustomer = models.Customer(username = _username, password = _password)
-        newCustomer.save(); 
-        
-        return json.dumps({'html':'<span>All fields good !!</span>'})
+    if full_form and equal_passwords:
+        #for user in db.customer:
+        #  print (user.username)
+        #newCustomer = Customer(username, password)
+        newCustomer = {"email": str(email), "username": str(username),"password": str(password), "date": datetime.datetime.utcnow()}
+        custid = customers.insert(newCustomer)
+        #db.collection.insert(Customer(username, password)) 
+
+        return redirect(url_for('signupcompleted'))
     else:
         return json.dumps({'html':'<span>Enter the required fields</span>'})
-    
-    return redirect('signupcompleted.html', 
-                           title='Sign Up Completed',
-                           form=form)
-
-@app.route('/showSignUp')
-def showSignUp():
-    return redirect(url_for('signUp'))
-
-@app.route('/showSignin')
-def showSignin():
-    return render_template('signin.html')
 
 
-@app.route('/validateLogin',methods=['POST'])
-def validateLogin():
-    try:
-        _username = request.form['inputEmail']
-        _password = request.form['inputPassword']
+@app.route('/signIn',methods=['POST'])
+def signIn():
+    email = request.form['inputEmail']
+    password = request.form['inputPassword']  
  
-    except Exception as e:
-        return render_template('error.html',error = str(e))
+    customer= customers.find_one({"email": email, "password":password})
+
+    if customer: 
+      #return redirect(url_for('my_profile'))
+      return json.dumps({'html':'<span>Founded</span>'})
+    else:
+      #return json.dumps({'html':'<span>Not Founded</span>'})
+      return flash('Invalid authentication')
+      return redirect(url_for('signin')) 
+   
 
