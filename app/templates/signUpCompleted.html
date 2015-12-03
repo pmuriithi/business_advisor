@@ -1,0 +1,37 @@
+{% extends "basicTemplate.html" %}
+{% block content %}	
+<div class="container">
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Sign up complete!</h4>
+                    </div>
+                    <div class="panel-body">
+						<form action="javascript:void(0);">
+							<div class="control-group form-group">
+								<div class="controls">
+									<label>Press the button below to sign in</label>
+								</div>
+							</div>						
+                           	
+								<a id="signin_button" href="{{ url_for('signin') }}" button type="submit" class="btn btn-lg btn-success btn-block">Go to sign in</button></a> 
+								
+								
+								<!-- EB: added to diplay the result of the registration-->
+								<br/>
+								<div class="form-group">
+								<label id="result"></label>
+								</div>
+								<br/>
+								
+								<!-- EB: added to distinguish between the user and the company page -->
+								<input value="user" type="hidden" id="usertype">
+								
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
