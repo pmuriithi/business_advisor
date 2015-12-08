@@ -10,6 +10,7 @@
 						
                     </div>
                     <div class="panel-body">
+                   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}                        
 						<form  action="/signIn" method=POST name="signIn">
                             <fieldset>
                                 <div class="form-group">
