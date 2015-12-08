@@ -6,7 +6,8 @@ from pymongo import MongoClient
 client = MongoClient('localhost:27017')
 print (client)
 db = client['business_advisor']
-customers = db['test-customers']
+customers = db['customers']
+
 
 #if __name__ == '__main__':
 #	app.debug = True
