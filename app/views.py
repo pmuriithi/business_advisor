@@ -45,9 +45,9 @@ def signup():
 def signupcompleted():
     return render_template('signUpCompleted.html')   
 
-@app.route('/signin')
-def signin():
-    return render_template('signIn.html')   
+# @app.route('/signin')
+# def signin():
+#     return render_template('signIn.html')   
 # index view function suppressed for brevity
 
 # @app.route('/login', methods=['GET', 'POST'])
