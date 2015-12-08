@@ -8,6 +8,11 @@ from werkzeug import secure_filename
 
 import datetime
 
+app.config.update(dict(  
+    SECRET_KEY='development key'
+))
+
+
 @app.route('/')
 def index():
   return render_template('basicTemplate.html') # unction home() uses the Flask function render_template() to render the home.html template
@@ -58,12 +63,12 @@ def signin():
 
 @app.route('/signUp',methods=['POST'])
 def signUp():
-   
+    error = None
     name = request.form['inputName']
     adress = request.form['inputAdress']
     organisationalNumber = request.form['inputOrganisationalNumber']
     contactNumber = request.form['inputContactNumber']
-    sector = request.form['inputIndustrySector']
+    #sector = request.form['inputIndustrySector']
     email = request.form['inputEmail']
     username = request.form['inputUserName']
     password = request.form['inputPassword']
@@ -72,33 +77,97 @@ def signUp():
     full_form = email and username and password and password2
 
     equal_passwords = (password == password2)
+
+    if full_form:
+       
+        username_found=customers.find_one({"username": str(username)})
+        print(username_found)
+
+        if username_found != None:
+            flash(u'That username is already taken, please choose another', 'error')
+            return redirect(url_for('signup'))
+        if not(equal_passwords): 
+            error ='The password are not matching'
+            return redirect(url_for('signup'))
+        else:
+            newCustomer = {"name": str(name), "adress":str(adress), "email": str(email), "organisationalNumber": str(organisationalNumber), "contactNumber": str(contactNumber), """sector: str(sector),""" "email":str(email), "username": str(username), "password": str(password), "date": datetime.datetime.utcnow()}
+
+            custid = customers.insert(newCustomer)
+            return redirect(url_for('signupcompleted'))
+    else:
+        error= 'The form is not correctly fulfilled'
+        return redirect(url_for('signup'))   
+
+    #validate the received values
+    # if full_form and equal_passwords:
+    #     #for user in db.customer:
+    #     #  print (user.username)
+    #     #newCustomer = Customer(username, password)
+    #     newCustomer = {"name": str(name), "adress":str(adress), "email": str(email), "organisationalNumber": str(organisationalNumber), "contactNumber": str(contactNumber), """sector: str(sector),""" "email":str(email), "username": str(username), "password": str(password), "date": datetime.datetime.utcnow()}
+
+    #     #custid = customers.insert(newCustomer)
+    
+
+    # else:
+    #     return json.dumps({'html':'<span>Enter the required fields</span>'})
+
     # validate the received values
-    if full_form and equal_passwords:
+    #if full_form:
         #for user in db.customer:
         #  print (user.username)
         #newCustomer = Customer(username, password)
-        newCustomer = {"email": str(email), "username": str(username),"password": str(password), "date": datetime.datetime.utcnow()}
-        custid = customers.insert(newCustomer)
+        #newCustomer = {"email": str(email), "username": str(username),"password": str(password), "date": datetime.datetime.utcnow()}
+        
+        #db_empty=customers.find_one()
+        #if db_empty!= None:
+         #   x=customers.find_one({"username": str(username)})
+
+        # if x!= None:
+        #     flash("That username is already taken, please choose another")
+        #     return render_template('signUp')
+    #     if not(equal_passwords): 
+    #         flash("The password are not matching")
+    #         return render_template('signUp')
+    #     else:
+    #         newCustomer = {"name": str(name), "adress":str(adress), "email": str(email), "organisationalNumber": str(organisationalNumber), "contactNumber": str(contactNumber), """sector: str(sector),""" "email":str(email), "username": str(username), "password": str(password), "date": datetime.datetime.utcnow()}
+
+    #         custid = customers.insert(newCustomer)
+    #         return redirect(url_for('signupcompleted'))
+    # else:
+    #     flash("The form is not correctly fulfill")
+    #     return render_template('signUp')    
+
+       
+        # newCustomer = Object()
+        # newCustomer.name = str(name)
+        # newCustomer.adress= str(adress)
+        # newCustomer.organisationalNumber=str(organisationalNumber)
+        # newCustomer.contactNumber = str(contactNumber)
+        # newCustomer.sector = str(sector)
+        # newCustomer.email=str(email)
+        # newCustomer.username = str(username)
+        # newCustomer.password= str(password)
+        #cstid2 = customer.insert(newCustomer)
         #db.collection.insert(Customer(username, password)) 
 
-        return redirect(url_for('signupcompleted'))
-    else:
-        return json.dumps({'html':'<span>Enter the required fields</span>'})
 
+# @app.route('/signIn',methods=['POST'])
+# def signIn():
+#     #email = request.form['inputEmail']
+#     #password = request.form['inputPassword']  
+#     # email = "poly@gmail.com"
+#     # password = "pp"
+#     customer= customers.find_one({"email": email, "password":password})
 
-@app.route('/signIn',methods=['POST'])
-def signIn():
-    email = request.form['inputEmail']
-    password = request.form['inputPassword']  
- 
-    customer= customers.find_one({"email": email, "password":password})
+#     if customer == null : 
+#       #return redirect(url_for('my_profile'))
+#       return json.dumps({'html':'<span> Not Founded</span>'})
+#     else:
+#       return json.dumps({'html':'<span> Founded</span>'})
+#       #return flash('Invalid authentication')
+#       #return redirect(url_for('signin')) 
 
-    if customer: 
-      #return redirect(url_for('my_profile'))
-      return json.dumps({'html':'<span>Founded</span>'})
-    else:
-      #return json.dumps({'html':'<span>Not Founded</span>'})
-      return flash('Invalid authentication')
-      return redirect(url_for('signin')) 
-   
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
 
