@@ -1,12 +1,13 @@
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import request, session, g, redirect, url_for, abort, render_template, flash
+from app import app
 from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
 
-app = Flask(__name__)
-client = MongoClient('localhost:27017')
-db = client.mydb
+# app = Flask(__name__)
+# client = MongoClient('localhost:27017')
+# db = client.mydb
 
-app.config.from_object('settings')
+
 
 # @app.route('/')
 # def index():

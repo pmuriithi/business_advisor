@@ -5,22 +5,22 @@ import parse
 import notify
 import os.path
 from xlrd import open_workbook
-from flask import Flask, request, redirect, url_for,render_template, flash
+from flask import request, redirect, url_for,render_template, flash
 from werkzeug import secure_filename
 
 
 #where we store the uploaded file(use double slash to avoid the IOError22: invalid filename)
 #UPLOAD_FOLDER =  'C:\\Users\\POLY\\Google Drive\\Desktop\\UPC\\BIP\\project\\temp\\test'
-UPLOAD_FOLDER = './test/'
+# UPLOAD_FOLDER = './test/'
 #The file formats that are acceptable for upload
 ALLOWED_EXTENSIONS = set(['xls','xlsx'])
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# app = Flask(__name__)
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-app.config.update(dict(  
-    SECRET_KEY='development key'
-))
+# app.config.update(dict(  
+#     SECRET_KEY='development key'
+# ))
 #check that the uploaded file is in the right format in our case .xls or .xlsx.
 def allowed_file(filename):
     return '.' in filename and \
@@ -78,6 +78,6 @@ def upload_file():
 		return render_template('upload.html', files=files)
 		return redirect(url_for('upload_file'))
 						
-if __name__ == '__main__':
-	app.debug = True
-	app.run()
+# if __name__ == '__main__':
+# 	app.debug = True
+# 	app.run()
