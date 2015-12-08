@@ -2,8 +2,8 @@
 from flask import render_template, flash, redirect, url_for, json, request
 from app import app
 from .connection import db, customers
-from .forms import LoginForm
-from .models import Customer
+# from .forms import LoginForm
+# from .models import Customer
 from werkzeug import secure_filename
 
 import datetime
@@ -45,9 +45,9 @@ def signup():
 def signupcompleted():
     return render_template('signUpCompleted.html')   
 
-# @app.route('/signin')
-# def signin():
-#     return render_template('signIn.html')   
+@app.route('/signin')
+def signin():
+    return render_template('signIn.html')   
 # index view function suppressed for brevity
 
 # @app.route('/login', methods=['GET', 'POST'])
