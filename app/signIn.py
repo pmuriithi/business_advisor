@@ -1,7 +1,8 @@
-from flask import request, session, g, redirect, url_for, abort, render_template, flash
-from app import app
+from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
+from app import app
+from .connection import db
 
 # app = Flask(__name__)
 # client = MongoClient('localhost:27017')
@@ -47,16 +48,20 @@ def login():
         print user
         print "*******************************"
         users = db.mycol2.find_one({'email': user})
-        print users.get("email")
-        print "*******************************" 
-        if user != users.get("email"):
-            error = 'Invalid username'
-        elif password != users.get("password"):
-            error = 'Invalid password'
-        else:
-            session[user] = users.get("email")
-            flash('You were logged in')
-            return redirect(url_for('home'))
+        if users != None:
+            print users.get("email")
+            print "*******************************" 
+            if user != users.get("email"):
+                error = 'Invalid username'
+            elif password != users.get("password"):
+                error = 'Invalid password'
+            else:
+                session[user] = users.get("email")
+                flash('You were logged in')
+                return redirect(url_for('about_signedIn'))
+        elif users == None:
+            error = 'User not found'
+            return redirect(url_for('signup'))      
     return render_template('signIn.html', error=error)
 
 

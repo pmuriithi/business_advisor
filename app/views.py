@@ -1,7 +1,7 @@
 
 from flask import render_template, flash, redirect, url_for, json, request
 from app import app
-from .connection import db, customers
+from .connection import db
 # from .forms import LoginForm
 # from .models import Customer
 from werkzeug import secure_filename
@@ -21,9 +21,17 @@ def index():
 def home():
   return render_template('home.html')
 
+# @app.route('/home')
+# def home_signedIn():
+#   return render_template('home2.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/about_us')
+def about_signedIn():
+    return render_template('about2.html')    
 
 @app.route('/upload')
 def upload():
@@ -33,9 +41,17 @@ def upload():
 def contact():
     return render_template('contact.html')
 
+@app.route('/contact_us')
+def contact_signedIn():
+    return render_template('contact2.html')    
+
 @app.route('/myprofile')
 def profile():
-    return render_template('myprofile.html')    
+    return render_template('myprofile.html')
+
+@app.route('/analysis')
+def analysis():
+    return render_template('analysis.html')         
 
 @app.route('/signup')
 def signup():
@@ -80,7 +96,7 @@ def signUp():
 
     if full_form:
        
-        username_found=customers.find_one({"username": str(username)})
+        username_found=db.mycol2.find_one({"username": str(username)})
         print(username_found)
 
         if username_found != None:
@@ -92,7 +108,11 @@ def signUp():
         else:
             newCustomer = {"name": str(name), "adress":str(adress), "email": str(email), "organisationalNumber": str(organisationalNumber), "contactNumber": str(contactNumber), """sector: str(sector),""" "email":str(email), "username": str(username), "password": str(password), "date": datetime.datetime.utcnow()}
 
-            custid = customers.insert(newCustomer)
+            custid = db.mycol2.insert(newCustomer)
+            print custid
+            collectionNewCustomer = db['Customer_'+str(custid)]
+            collectionTransaction = collectionNewCustomer.transactions
+            collectionClient = collectionNewCustomer.clients
             return redirect(url_for('signupcompleted'))
     else:
         error= 'The form is not correctly fulfilled'

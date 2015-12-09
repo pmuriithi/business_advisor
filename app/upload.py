@@ -1,12 +1,13 @@
 import os
 import json
 import xlrd
-import parse
-import notify
+from app import parse
+from app import notify
 import os.path
 from xlrd import open_workbook
-from flask import request, redirect, url_for,render_template, flash
+from flask import Flask, request, redirect, url_for,render_template, flash
 from werkzeug import secure_filename
+from app import app
 
 
 #where we store the uploaded file(use double slash to avoid the IOError22: invalid filename)
@@ -26,29 +27,29 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/')
-def index():
-  return render_template('basicTemplate.html') # unction home() uses the Flask function render_template() to render the home.html template
+# @app.route('/')
+# def index():
+#   return render_template('basicTemplate.html') # unction home() uses the Flask function render_template() to render the home.html template
 
-@app.route('/home')
-def home():
-  return render_template('home.html')
+# @app.route('/home')
+# def home():
+#   return render_template('home.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+# @app.route('/about')
+# def about():
+#     return render_template('about.html')
 
-@app.route('/upload')
-def upload():
-  return render_template('upload.html')
+# @app.route('/upload')
+# def upload():
+#   return render_template('upload.html')
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
+# @app.route('/contact')
+# def contact():
+#     return render_template('contact.html')
 
-@app.route('/myprofile')
-def profile():
-    return render_template('myprofile.html') 
+# @app.route('/myprofile')
+# def profile():
+#     return render_template('myprofile.html') 
 
 ###########
 #We then mapped the URL / to the function home(). Now, when someone visits this URL, the function home() will execute. 
@@ -78,6 +79,6 @@ def upload_file():
 		return render_template('upload.html', files=files)
 		return redirect(url_for('upload_file'))
 						
-# if __name__ == '__main__':
-# 	app.debug = True
-# 	app.run()
+if __name__ == '__main__':
+	app.debug = True
+	app.run()

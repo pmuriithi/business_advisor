@@ -1,4 +1,28 @@
-{% extends "basicTemplate.html" %}
+{% extends "customTemplate.html" %}
+{% block navigation %}
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{{ url_for('about_signedIn') }}">About</a>
+            </li>
+            <li>
+                <a href="{{ url_for('profile') }}">My profile</a>
+            </li>                        
+            <li>
+                <a href="{{ url_for('upload_file') }}">Upload</a>
+            </li>
+            <li>
+                <a href="{{ url_for('analysis') }}">Analysis</a>
+            </li>                   
+            <li>
+                <a href="{{ url_for('contact_signedIn') }}">Contact</a>
+            </li>                                                                       
+            <li>
+                <a id="logout_button" href="{{ url_for('home') }}">Log Out</a>
+            </li>                                        
+        </ul>
+    </div>
+{% endblock %}
 {% block content %}     
      <div class="container">
 		<div class="row">

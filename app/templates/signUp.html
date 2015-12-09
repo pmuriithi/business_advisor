@@ -1,27 +1,42 @@
-{% extends "basicTemplate.html" %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-  	{% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      	<li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-{% block content %}	
-  <div class="container">
-		<div class="row">
-			
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
+{% extends "customTemplate.html" %}
+{% block navigation %}
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li>
+                <a href="{{ url_for('about') }}">About</a>
+            </li>
+            <li>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </li>                                      
+        </ul>
+    </div>
+{% endblock %}
+{% block content %} 
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Sign Up</h4>
-                   
-				   </div>
-                   <div class="panel-body">
-						<form action="/signUp " method=POST>
+                        
+                    </div>
+                    <div class="panel-body">
+<!-- {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}  -->                   
+                   {% if error %}<p class=error><strong>Error:</strong> {{ error }}
+                   {% endif %}   						
+                        <form action="/signup " method=POST>
 							<div class="control-group form-group">
 								<div class="controls">
 									<label>Company Name:</label>
@@ -79,8 +94,8 @@
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-		</div>
+        </div>
+    </div>
+</div>
 {% endblock %}	
        
