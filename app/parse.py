@@ -5,7 +5,7 @@ from xlrd import open_workbook
 from flask import Flask
 
 #path = 'C:\\Users\\POLY\\Google Drive\\Desktop\\UPC\\BIP\\project\\temp\\test\\'
-path = './test/'
+path = "C:\\Users\POLY\\Google Drive\\Desktop\UPC\\BIP\\business_advisor\\app\\test"
 filename = ''
 
 def parse_file(filename):
@@ -15,7 +15,10 @@ def parse_file(filename):
 	#split the file to filename without the path
 	book = open_workbook(os.path.join(path,filename))
 	sheet = book.sheet_by_index(0)
-
+	for r in range(0,sheet.nrows): #create a list with all row numbers that contain data and loop through it
+		for c in range(0, sheet.ncols):       #create a list with all column numbers that contain data and loop through i
+			if sheet.cell_type(r, c) == xlrd.XL_CELL_EMPTY:
+				sheet._cell_values[r][c] = 'NULL'
 	# read header values into the list    
 	keys = [sheet.cell(0, col_index).value for col_index in range(sheet.ncols)]
 

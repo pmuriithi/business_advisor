@@ -8,7 +8,7 @@ from pymongo import MongoClient
 # db = client['business_advisor']
 # customers = db['customers']
 client = MongoClient('localhost:27017')
-db = client.mydb
+db = client.db_ba
 
 
 #if __name__ == '__main__':

@@ -91,3 +91,16 @@
 </body>
 
 </html>
+
+<!-- {% for message in get_flashed_messages() %}
+<div class="flash">{{ message }}</div>
+{% endfor %} -->
+
+<!-- <div class="metanav">
+    <a href="{{ url_for('index') }}">Home</a> |
+    {% if not session.logged_in %}
+        <a href="{{ url_for('login') }}">log in</a>
+    {% else %}
+        Logged in as {{ session.this_user.first_name }} <a href="{{ url_for('logout') }}">log out</a>
+    {% endif %}
+</div> -->

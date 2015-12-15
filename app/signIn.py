@@ -47,7 +47,7 @@ def login():
         password =request.form['inputPassword']
         print user
         print "*******************************"
-        users = db.mycol2.find_one({'email': user})
+        users = db.registry.find_one({'email': user})
         if users != None:
             print users.get("email")
             print "*******************************" 

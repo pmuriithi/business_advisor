@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] ='sdfsdf82347$$%$%$%$&fsdfs!!ASx+__WEBB$'
 
-UPLOAD_FOLDER = './test/'
+UPLOAD_FOLDER = "C:\\Users\POLY\\Google Drive\\Desktop\UPC\\BIP\\business_advisor\\app\\test"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.config.update(dict(  

@@ -21,10 +21,6 @@ def index():
 def home():
   return render_template('home.html')
 
-# @app.route('/home')
-# def home_signedIn():
-#   return render_template('home2.html')
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -32,10 +28,6 @@ def about():
 @app.route('/about_us')
 def about_signedIn():
     return render_template('about2.html')    
-
-@app.route('/upload')
-def upload():
-  return render_template('upload.html')
 
 @app.route('/contact')
 def contact():
@@ -53,7 +45,7 @@ def profile():
 def analysis():
     return render_template('analysis.html')         
 
-@app.route('/signup')
+@app.route('/signUp')
 def signup():
     return render_template('signUp.html') 
 
@@ -77,7 +69,7 @@ def signin():
 #                            title='Sign In',
 #                            form=form)
 
-@app.route('/signUp',methods=['POST'])
+@app.route('/signup',methods=['POST'])
 def signUp():
     error = None
     name = request.form['inputName']
@@ -101,22 +93,27 @@ def signUp():
 
         if username_found != None:
             flash(u'That username is already taken, please choose another', 'error')
-            return redirect(url_for('signup'))
+            return redirect(url_for('signUp'))
         if not(equal_passwords): 
             error ='The password are not matching'
-            return redirect(url_for('signup'))
+            return redirect(url_for('signUp'))
         else:
             newCustomer = {"name": str(name), "adress":str(adress), "email": str(email), "organisationalNumber": str(organisationalNumber), "contactNumber": str(contactNumber), """sector: str(sector),""" "email":str(email), "username": str(username), "password": str(password), "date": datetime.datetime.utcnow()}
 
-            custid = db.mycol2.insert(newCustomer)
+            custid = db.registry.insert(newCustomer)
             print custid
             collectionNewCustomer = db['Customer_'+str(custid)]
+            
+            newCollection = {"transactions": None, "clients": None}
+            client_collection_id = db['Customer_'+str(custid)].insert(newCollection)
+
             collectionTransaction = collectionNewCustomer.transactions
             collectionClient = collectionNewCustomer.clients
+
             return redirect(url_for('signupcompleted'))
     else:
         error= 'The form is not correctly fulfilled'
-        return redirect(url_for('signup'))   
+        return redirect(url_for('signUp'))   
 
     #validate the received values
     # if full_form and equal_passwords:
